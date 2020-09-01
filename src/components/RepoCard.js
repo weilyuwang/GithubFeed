@@ -14,9 +14,9 @@ const RepoCard = ({ data }) => {
 
   return (
     <Card>
-      <a className="star-wrapper">
+      <div className="star-wrapper">
         <img src={hasStarred ? starSvgFilled : starSvg} alt="star" />
-      </a>
+      </div>
       <div
         css={{
           display: 'grid',

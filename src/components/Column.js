@@ -6,13 +6,14 @@ import 'styled-components/macro';
 
 import RepoCard from './RepoCard'
 import Avatar from './Avatar'
+import Button from './Button'
 
 const GET_USER_ACTIVITY = gql`
-	query($user: String!) {
+	query($user: String!, $cursor: String) {
 		user(login: $user) {
 			id
 			avatarUrl
-			starredRepositories(last: 6) {
+			starredRepositories(last: 6, before: $cursor) {
 				pageInfo {
 					hasPreviousPage
 					startCursor
@@ -57,13 +58,9 @@ const ColumnWrapper = styled('section')({
 });
 
 const Column = ({ user }) => {
-  const { loading, data, error } = useQuery(GET_USER_ACTIVITY, {
-    variables: { user: user },
+  const { loading, data, error, fetchMore } = useQuery(GET_USER_ACTIVITY, {
+    variables: { user: user, cursor: null },
   });
-
-  if (data) {
-    console.log(data)
-  }
 
   return (
     <ColumnWrapper>
@@ -84,6 +81,30 @@ const Column = ({ user }) => {
             {data.user.starredRepositories.edges.map(({ node }) => {
               return <RepoCard data={node} key={node.id} />
             })}
+            {data.user.starredRepositories.pageInfo.hasPreviousPage && (
+              <Button css={{ width: '100%', marginTop: '30px' }} onClick={() =>
+                fetchMore({
+                  variables: {
+                    cursor: data.user.starredRepositories.pageInfo.startCursor
+                  },
+                  updateQuery: (prev, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) return prev;
+                    return {
+                      user: {
+                        ...prev.user,
+                        starredRepositories: {
+                          ...fetchMoreResult.user.starredRepositories,
+                          edges: [
+                            ...prev.user.starredRepositories.edges,
+                            ...fetchMoreResult.user.starredRepositories.edges
+                          ]
+                        }
+                      }
+                    }
+                  }
+                })
+              }>Load More</Button>
+            )}
           </>
         )}
       </>
