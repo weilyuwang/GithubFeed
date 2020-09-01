@@ -3,6 +3,8 @@ import 'styled-components/macro';
 import { useQuery, gql } from '@apollo/client';
 
 
+import Avatar from './Avatar'
+
 const GET_VIEWER = gql`
 	query {
 		viewer {
@@ -20,16 +22,16 @@ const Sidebar = () => {
   return (
     <aside>
       <div>
-        {loading && <div>loading...</div>}
-        {error && <div>Error...</div>}
-        {data && data.viewer && (
-          <img src={data.viewer.avatarUrl} alt={data.viewer.login} />
-        )}
+        <>
+          {loading && <div>loading...</div>}
+          {error && <div>Error...</div>}
+          {data && data.viewer && (
+            <Avatar src={data.viewer.avatarUrl} alt={data.viewer.login} />
+          )}
+        </>
 
-      </div>
-      <div>
-
-        <button
+        <div
+          css={{ color: 'rgb(210, 54, 105)', cursor: 'pointer' }}
           onClick={
             () => {
               localStorage.clear()
@@ -37,7 +39,7 @@ const Sidebar = () => {
             }
           }>
           Logout
-          </button>
+        </div>
       </div>
     </aside>
   )

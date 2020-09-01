@@ -6,7 +6,7 @@ import Login from './Login'
 
 // Components
 import Sidebar from './components/Siderbar'
-
+import Column from './components/Column'
 
 // get the authentication token from local storage if it exists
 const accessToken = localStorage.getItem('token');
@@ -62,10 +62,23 @@ function App() {
       <Global />
       {accessToken ?
         <ApolloProvider client={client}>
-          <Sidebar />
+          <div css={{
+            display: 'grid',
+            gridTemplateColumns: '80px repeat(auto-fit, 300px)',
+            alignItems: 'start',
+            height: 'calc(100vh - 4px)',
+            overflow: 'hidden',
+          }}>
+            <Sidebar />
+            <Column user="weilyuwang" />
+            <Column user="divyanshu013" />
+            <Column user="metagrover" />
+          </div>
         </ApolloProvider>
         :
-        <Login />}
+        <Login />
+      }
+
     </>
   );
 }
