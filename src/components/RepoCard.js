@@ -6,17 +6,17 @@ import Avatar from './Avatar';
 import Card from './Card';
 import Tag from './Tag';
 
-// import starSvg from '../assets/star.svg';
-// import starSvgFilled from '../assets/star-filled.svg';
+import starSvg from '../assets/star.svg';
+import starSvgFilled from '../assets/star-filled.svg';
 
 const RepoCard = ({ data }) => {
   const hasStarred = data.viewerHasStarred;
 
   return (
     <Card>
-      {/* <a className="star-wrapper">
+      <a className="star-wrapper">
         <img src={hasStarred ? starSvgFilled : starSvg} alt="star" />
-      </a> */}
+      </a>
       <div
         css={{
           display: 'grid',

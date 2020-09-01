@@ -20,7 +20,16 @@ const Sidebar = () => {
   const { loading, error, data } = useQuery(GET_VIEWER);
 
   return (
-    <aside>
+    <aside css={{
+      alignSelf: 'stretch',
+      background: '#eaeaea',
+      borderRight: '1px solid #e9e9e9',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: 16,
+      justifyContent: 'space-between',
+    }}>
       <div>
         <>
           {loading && <div>loading...</div>}

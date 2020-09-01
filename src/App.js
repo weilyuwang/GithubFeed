@@ -62,6 +62,10 @@ function App() {
       <Global />
       {accessToken ?
         <ApolloProvider client={client}>
+          {/* 
+            Under the hood, the Babel plugin turns any element 
+            with a css prop into a styled component.  
+          */}
           <div css={{
             display: 'grid',
             gridTemplateColumns: '80px repeat(auto-fit, 300px)',
